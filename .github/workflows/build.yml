@@ -31,9 +31,8 @@ jobs:
         with:
           context: .
           push: true
-          # عدّل build-args CUDA_ARCH لو استهدفت بطاقة غير RTX 4090
           build-args: |
             CUDA_ARCH=sm_89
           tags: |
-      ghcr.io/ouhly10/ripemd160-tool:latest
-      ghcr.io/ouhly10/ripemd160-tool:${{ github.sha }}
+            ghcr.io/ouhly10/ripemd160-tool:latest
+            ghcr.io/ouhly10/ripemd160-tool:${{ github.sha }}
