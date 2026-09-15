@@ -1,0 +1,39 @@
+name: build-ripemd160-tool
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ripemd160.cu"
+      - "main.cu"
+      - "Dockerfile"
+      - ".github/workflows/build.yml"
+  workflow_dispatch: {}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # عدّل build-args CUDA_ARCH لو استهدفت بطاقة غير RTX 4090
+          build-args: |
+            CUDA_ARCH=sm_89
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/ripemd160-tool:latest
+            ghcr.io/${{ github.repository_owner }}/ripemd160-tool:${{ github.sha }}
