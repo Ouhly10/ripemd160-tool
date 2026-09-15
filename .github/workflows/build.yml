@@ -35,6 +35,5 @@ jobs:
           build-args: |
             CUDA_ARCH=sm_89
           tags: |
-                tags: |
       ghcr.io/ouhly10/ripemd160-tool:latest
       ghcr.io/ouhly10/ripemd160-tool:${{ github.sha }}
